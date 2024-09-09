@@ -1,0 +1,19 @@
+{{--
+            <!-- @if($sl!= null || $sl = null)
+            @foreach($sl as $s)
+
+            
+            
+                <option value="{{$user->id}}" 
+                @if($s['user_id])
+                {{
+                
+                $s['user_id'] == $user->id  ? 'selected' : ''
+                
+                }}
+                @endif
+                >{{$user->name}}
+                </option>
+            
+            @endforeach
+            @endif -->
