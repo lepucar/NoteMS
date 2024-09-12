@@ -1,4 +1,4 @@
-@extends('components.master')
+@extends('components.loginmaster')
 
 @section('body')
 

@@ -2,16 +2,28 @@
 
 @section('body')
 
+
+
 <form method="post" action="{{route('assignTask', $selectUserData->id)}}">
     @csrf
     <div class="mb-3">
-    <select name="cars" id="cars" multiple>
-        @foreach ($userData as $user)
-            <h1>{{$user->name}}</h1>
-            
+    <select name="assigned_to[]" class="form-control" multiple>
 
-       
+        @foreach ($sl as $ss)
+        
+            @foreach($userData as $user)
+
+        <option value="{{$user->id}}" 
+                
+                @selected ($ss->user_id == $user->id)
+                >
+                {{$user->name}}
+                </option>
+
+            @endforeach
             
+        
+
         @endforeach
   
     </select>  

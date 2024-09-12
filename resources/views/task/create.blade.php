@@ -8,7 +8,7 @@
         <label for="title" class="form-label">Title
             <span class="text-danger">{{$errors->first('title')}}</span>
         </label>
-        <input type="text" class="form-control" id="exampleFormControlInput1" name="title" value="{{old('title)}}">
+        <input type="text" class="form-control" id="exampleFormControlInput1" name="title" value="{{old('title')}}">
 
     </div>
 
@@ -16,7 +16,7 @@
         <label for="description" class="form-label">Description
             <span class="text-danger">{{$errors->first('description')}}</span>
         </label>
-        <textarea class="form-control" id="textareaDesc" name="description">{{old('description)}}</textarea>
+        <textarea class="form-control" id="textareaDesc" name="description">{{old('description')}}</textarea>
 
     </div>
 

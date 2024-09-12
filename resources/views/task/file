@@ -17,3 +17,14 @@
             
             @endforeach
             @endif -->
+
+--------------------------------------------------------
+
+            @if(empty($sl)) -->
+        
+            
+            <option value="{{$user->id}}">
+                {{$user->name}}
+            </option> 
+        
+        @else

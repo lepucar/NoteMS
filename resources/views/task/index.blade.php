@@ -31,12 +31,13 @@
 
         <tbody>
             @foreach($taskData as $task)
+                @foreach($selectData as $asData)
             <tr>
                 <td>{{$task->id}}</td>
                 <td>{{$task->title}}</td>
                 <td>{{$task->description}}</td>
                 <td>{{$task->name}}</td>
-                <td>{{$task->assigned_to}}</td>
+                <td>{{$asData->username}}</td>
                 <td>{{$task->due_date}}</td>
                 <td>{{$task->priority}}</td>
                 <td>{{$task->status}}</td>
@@ -67,6 +68,8 @@
 
 
             </tr>
+
+                @endforeach
 
             @endforeach
             
