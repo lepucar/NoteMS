@@ -12,4 +12,16 @@ class Task extends Model
     protected $fillable = [
         'user_id', 'assigned_to', 'title', 'due_date','description', 'priority', 'status', 'category'
     ];
+
+    public function comments()
+    {
+    return $this->hasMany(TaskComment::class)->whereNull('parent_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    
 }

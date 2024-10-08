@@ -16,7 +16,7 @@
         <label for="description" class="form-label">Description
             <span class="text-danger">{{$errors->first('description')}}</span>
         </label>
-        <textarea class="form-control" id="textareaDesc" name="description">{{old('description')}}</textarea>
+        <textarea class="form-control"  id="textareaDesc" name="description">{{old('description')}}</textarea>
 
     </div>
 
@@ -42,7 +42,7 @@
     </div>
 
     <div class="mb-3">
-        <button class="btn btn-primary">Add Task</button>
+        <button class="btn btn-primary">Add Note</button>
     </div>
 
 

@@ -20,7 +20,6 @@
                 <th>Title</th>
                 <th>Description</th>
                 <th>Created By</th>
-                
                 <th>Category</th>
                 <th>Action<th>
             </tr>
@@ -63,7 +62,7 @@
 
             </tr>
 
-                @endforeach
+            @endforeach
 
             
             

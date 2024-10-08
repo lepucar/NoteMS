@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Note;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NoteRequest;
 use App\Http\Requests\NoteUpdateRequest;
+use App\Http\Requests\ShareRequest;
 use App\Models\Notes;
+use App\Models\Shares;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -86,19 +89,56 @@ class NoteController extends Controller
 
     public function view($id)
     {
-        $noteData = DB::table('users')
-            ->join('notes', 'users.id', '=', 'notes.user_id')
-
-            ->select('users.*', 'notes.*')
-            ->where('users.id', $id)
-            ->first();
+        $noteData = Notes::where('id', $id)->with('comments')->findOrFail($id);
+        
 
         return view('note.view', compact('noteData'));
     }
 
-    public function share($id)
+    public function showShare($id)
     {
-        return redirect()->back();
+        $userData = User::all();
+        $noteData = Notes::where('id', $id)->first();
+        return view('note.share', compact('userData', 'noteData'));
+    }
+
+    public function share(ShareRequest $request, $id)
+    {
+        $validations = $request->validated();
+        $validations['fromUID'] = Auth::user()->id;
+        
+        $validations['note_id'] = $id;
+        
+        $data = $request->input('toUID');
+        
+        
+        $i=0;
+        foreach ($data as $d) {
+            
+
+                $assignData[$i] = ['user_id' => $d];
+                $i++;
+                
+            
+            
+        }
+
+        
+
+        $validations['toUID'] = json_encode($assignData);
+        $share = Shares::create($validations);
+
+        if($share)
+        {
+            return redirect()->route('showNotes');
+        }
+        else
+        {
+            return redirect()->back();
+        }
+
+
+
     }
 
 

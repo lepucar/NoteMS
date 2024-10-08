@@ -3,7 +3,9 @@
 use App\Http\Controllers\Application\ApplicationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Note\NoteController;
+use App\Http\Controllers\NoteCommentController;
 use App\Http\Controllers\Task\TaskController;
+use App\Http\Controllers\TaskComment\TaskCommentController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,8 +18,9 @@ Route::post('register', [UserController::class, 'store'])->name('storeUser');
 Route::group(['namespace'=>'backend', 'prefix' => '', 'middleware' => 'auth'], function(){
 
 
-    Route::get('/', [ApplicationController::class, 'index'])->name('dashboard');
+    Route::get('/', [TaskController::class, 'getCompletedTasks'])->name('dashboard');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::post('/search', [ApplicationController::class, 'search'])->name('search');
 
 
     //TASKS
@@ -31,6 +34,7 @@ Route::group(['namespace'=>'backend', 'prefix' => '', 'middleware' => 'auth'], f
     Route::get('/tasks/assign/{id}', [TaskController::class, 'showassign'])->name('showAssign');
     Route::post('/tasks/assign/{id}', [TaskController::class, 'assignTask'])->name('assignTask');
     Route::get('/tasks/view/{id}', [TaskController::class, 'view'])->name('viewTask');
+    Route::post('/tasks/view/{id}', [TaskCommentController::class, 'store'])->name('storeComment');
 
 
 
@@ -45,4 +49,5 @@ Route::group(['namespace'=>'backend', 'prefix' => '', 'middleware' => 'auth'], f
     Route::get('/notes/share/{id}', [NoteController::class, 'showShare'])->name('showShare');
     Route::post('/notes/share/{id}', [NoteController::class, 'share'])->name('shareNote');
     Route::get('/notes/view/{id}', [NoteController::class, 'view'])->name('viewNote');
+    Route::post('/notes/view/{id}', [NoteCommentController::class, 'store'])->name('storeNoteComment');
 });

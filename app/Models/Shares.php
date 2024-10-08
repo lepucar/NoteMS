@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Shares extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'toUID', 'fromUID', 'note_id'
+    ];
 }

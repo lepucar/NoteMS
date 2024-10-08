@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AssignTaskRequest;
 use App\Http\Requests\TaskRequest;
 use App\Http\Requests\TaskUpdateRequest;
+use App\Mail\AssignMail;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class TaskController extends Controller
 {
@@ -77,10 +79,20 @@ class TaskController extends Controller
         $sl = json_decode($selectUserData['assigned_to']);
         
         
+        
+        
+        $userId = [];
+        $i=0;
+        foreach($sl as $s) {
+            
+            $userId[$i] = $s;
+            
+            $i++;
+        }
 
 
 
-        return view('task.assign', compact(['userData' => 'userData', 'selectUserData' => 'selectUserData', 'sl' => 'sl']));
+        return view('task.assign', compact(['userData' => 'userData', 'selectUserData' => 'selectUserData', 'userId' => 'userId']));
     }
 
 
@@ -101,8 +113,17 @@ class TaskController extends Controller
         // $assignData = json_encode($data);
         
         $assign = Task::where('id', $id)->update(['assigned_to' => $assignData]);
+        $asData = Task::where('id', $id)->first();
+
+        
 
         if ($assign) {
+            foreach($assignData as $da)
+            {
+            $user = User::where('id', $da['user_id'])->first();
+            Mail::to($user->email)->send(new AssignMail($asData));
+            }
+
             return redirect()->route('showTasks');
         } else {
             return redirect()->back();
@@ -122,14 +143,10 @@ class TaskController extends Controller
 
     public function view($id)
     {
-        $taskData = DB::table('users')
-            ->join('tasks', 'users.id', '=', 'tasks.user_id')
-
-            ->select('users.*', 'tasks.*')
-            ->where('users.id', $id)
-            ->first();
+        $taskData = Task::where('id', $id)->with('comments')->findOrFail($id);
         return view('task.view', compact('taskData'));
     }
+    
 
     public function buildArray()
     {
@@ -150,13 +167,9 @@ class TaskController extends Controller
                 $i = 0;
                 foreach ($jsondata as $d)
                 {
-                    
-                    
-                    $user = User::where('id', $d->user_id)->first();
+                    $user = User::where('id', $d)->first();
                     
                     $username = $user->name;
-
-
 
                     $selectData[$i] = ['username' => $username];
                     $i++;
@@ -172,6 +185,25 @@ class TaskController extends Controller
             }  
         }   
        
-         return $selectData;
+        return $selectData;
+    }
+
+    public function getCompletedTasks()
+    {
+        $taskData = Task::where('status', 'completed')->count();
+        
+
+        $oneWeekFromNow = now()->addWeek();
+    
+        $upcomingTasks = Task::whereBetween('due_date', [now(), $oneWeekFromNow])
+                         ->orderBy('due_date', 'asc')
+                         ->get();
+    
+        return view('application.dashboard', compact('upcomingTasks', 'taskData'));
+        
 }
+
+    
+        
 }
+

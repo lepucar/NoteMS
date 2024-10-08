@@ -14,6 +14,16 @@
     <link href="assets/img/favicon.png" rel="icon">
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
+    <!-----------------------------------------------------------
+    -- animate.min.css by Daniel Eden (https://animate.style)
+    -- is required for the animation of notifications and slide out panels
+    -- you can ignore this step if you already have this file in your project
+    --------------------------------------------------------------------------->
+
+    <link href="{{ asset('vendor/bladewind/css/animate.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('vendor/bladewind/css/bladewind-ui.min.css') }}" rel="stylesheet" />
+    <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
+
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -48,7 +58,7 @@
           class="list-group-item list-group-item-action py-2 ripple"
           aria-current="true"
         >
-          <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
+          <i class="fas fa-tachometer-alt fa-fw me-3"></i><span><b>Main dashboard</b></span>
         </a>
         <a href="#" class="list-group-item list-group-item-action py-2 ripple active">
           <i class="fas fa-chart-area fa-fw me-3"></i><span>Analytics</span>
@@ -59,21 +69,7 @@
         <a href="{{route('showNotes')}}" class="list-group-item list-group-item-action py-2 ripple"
           ><i class="fas fa-chart-line fa-fw me-3"></i><span>Notes</span></a
         >
-        <a href="#" class="list-group-item list-group-item-action py-2 ripple">
-          <i class="fas fa-chart-pie fa-fw me-3"></i><span>SEO</span>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action py-2 ripple"
-          ><i class="fas fa-chart-bar fa-fw me-3"></i><span>Orders</span></a
-        >
-        <a href="#" class="list-group-item list-group-item-action py-2 ripple"
-          ><i class="fas fa-globe fa-fw me-3"></i><span>International</span></a
-        >
-        <a href="#" class="list-group-item list-group-item-action py-2 ripple"
-          ><i class="fas fa-building fa-fw me-3"></i><span>Partners</span></a
-        >
-        <a href="#" class="list-group-item list-group-item-action py-2 ripple"
-          ><i class="fas fa-calendar fa-fw me-3"></i><span>Calendar</span></a
-        >
+       
         <a href="#" class="list-group-item list-group-item-action py-2 ripple"
           ><i class="fas fa-users fa-fw me-3"></i><span>Users</span></a
         >
@@ -112,12 +108,14 @@
         />
       </a>
       <!-- Search form -->
-      <form class="d-none d-md-flex input-group w-auto my-auto">
+      <form class="d-none d-md-flex input-group w-auto my-auto" method="post" action="{{route('search')}}">
+        @csrf
         <input
           autocomplete="off"
           type="search"
           class="form-control rounded"
-          placeholder='Search (ctrl + "/" to focus)'
+          name="keyword"
+          placeholder='Search..'
           style="min-width: 225px;"
         />
         <span class="input-group-text border-0"><i class="fas fa-search"></i></span>

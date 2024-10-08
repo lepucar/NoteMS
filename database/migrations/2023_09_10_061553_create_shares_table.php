@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('fromUID')->constrained('users', 'id')->onDelete('restrict')->onUpdate('cascade');
             $table->json('toUID');
+            
             $table->foreignId('note_id')->constrained('notes')->onDelete('restrict')->onUpdate('cascade');
             $table->timestamps();
         });

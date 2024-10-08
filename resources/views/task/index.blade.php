@@ -37,7 +37,7 @@
                 <td>{{$task->title}}</td>
                 <td>{{$task->description}}</td>
                 <td>{{$task->name}}</td>
-                <td>{{$asData->username}}</td>
+                <td>{{$asData['username']}}</td>
                 <td>{{$task->due_date}}</td>
                 <td>{{$task->priority}}</td>
                 <td>{{$task->status}}</td>
